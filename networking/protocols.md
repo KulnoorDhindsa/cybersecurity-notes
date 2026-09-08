@@ -38,4 +38,23 @@ Its called *connection-oriented* as before the actual sender sends data to recie
 - The *handshake* consists of *segments* of information regarding both devices and their ports.
 >TCP only runs on end-systems!
 - **duplex-service**: If data is being transfered from A to B, then at same time, data can be transfered from B to A
-- **point-to-point**: TCP connection is point
+- **point-to-point**: TCP establishes direct connection between singular end points (sender and reciever)
+    - *Multicasting* that is, singular sender sending to multiple recievers is NOT POSSIBLE !
+## Three-way Handshake
+Used by TCP to establish *reliable connection* between sending end system and recieving end system. Its an *exchange of Synchronised Sequence Numbers* between client and server, where they share the Initials Sequence Numbers (ISNs) that their segments will cary.
+- *Three-way Handshake* as 3 segments are sent between 2 processes, *client process* (the one initiating the connection) and *server process*.
+- It occurs between processes running on end systems.
+- Port numbers, socket numbers of end systems are NOT in Three-way Handshakes, but in TCP headers. IP address are in IP header, in the *network layer packet*, that wraps the *Transport layer segment* as its *payload*.
+### Steps for 3 way Handshake
+1. **SYN**: Client sends segment with **SYN** flag to synchronise *sequence numbers*, informing server that communication is likely to start with the client.
+2. **SYN + ACK**: Server sends **SYN - ACK** where, **ACK** for *acknowledgement* of recieving initial SYN flag from client, and *another SYN* flag to synchronize *sequence numbers* of the server, that is the Initial Sequence Numbers (ISNs) of the segments sent by server.
+3. **ACK**: Client sends final ACK as it recieves the SYN-ACK sent by server, thus establishing a reliable connection for data transfer.
+### Important:
+1. **Sequence number consumption**: SYN and FIN flag consume 1 sequence number even though they carry no data. Thats why, ACK is ISN+1
+2. **ISN are RANDOMIZED**: ISNs are *randomised* and not shared as a *security measure*, where hackers can't predict the next ISN and prevents hijacking of connection.
+3. **half-open state**: After #1, reciever is in *half-recieved state* with only **SYN-recieved** and is *exploited* by a **SYN flood attack** - never sending the ACK.
+>`SYN flood attack` is a DOS attack (denial-of-service) by not sending the ACK and haulting the connection.
+4. **RTT**: Its well known that the handshake adds an RTT, thus slowing connection when traffic is heavy, which is why UDP is preferred when *speed* is a factor in the condition.
+5.  
+
+## DOS attack / SYN flood attack
