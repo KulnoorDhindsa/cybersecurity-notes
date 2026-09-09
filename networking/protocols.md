@@ -45,6 +45,8 @@ Used by TCP to establish *reliable connection* between sending end system and re
 - *Three-way Handshake* as 3 segments are sent between 2 processes, *client process* (the one initiating the connection) and *server process*.
 - It occurs between processes running on end systems.
 - Port numbers, socket numbers of end systems are NOT in Three-way Handshakes, but in TCP headers. IP address are in IP header, in the *network layer packet*, that wraps the *Transport layer segment* as its *payload*.
+>**Send Buffer**: When an end-sytem reserves a memory location for the segments of Transport Layer sent in the TCP handshake.
+- **MSS** (Maximum Segment Size) is the maximum amount of application layer data that can be stored in the segment. TCP segment is chunks of *client-data* with TCP headers.
 ### Steps for 3 way Handshake
 1. **SYN**: Client sends segment with **SYN** flag to synchronise *sequence numbers*, informing server that communication is likely to start with the client.
 2. **SYN + ACK**: Server sends **SYN - ACK** where, **ACK** for *acknowledgement* of recieving initial SYN flag from client, and *another SYN* flag to synchronize *sequence numbers* of the server, that is the Initial Sequence Numbers (ISNs) of the segments sent by server.
@@ -53,8 +55,8 @@ Used by TCP to establish *reliable connection* between sending end system and re
 1. **Sequence number consumption**: SYN and FIN flag consume 1 sequence number even though they carry no data. Thats why, ACK is ISN+1
 2. **ISN are RANDOMIZED**: ISNs are *randomised* and not shared as a *security measure*, where hackers can't predict the next ISN and prevents hijacking of connection.
 3. **half-open state**: After #1, reciever is in *half-recieved state* with only **SYN-recieved** and is *exploited* by a **SYN flood attack** - never sending the ACK.
->`SYN flood attack` is a DOS attack (denial-of-service) by not sending the ACK and haulting the connection.
+>`SYN flood attack` is a DOS attack (denial-of-service) by not sending the ACK and flooding the connection with multiple SYNs and haulting the connection.
 4. **RTT**: Its well known that the handshake adds an RTT, thus slowing connection when traffic is heavy, which is why UDP is preferred when *speed* is a factor in the condition.
-5.  
 
-## DOS attack / SYN flood attack
+### TCP Segment Structure
+Data field is *1 byte* and TCP header is *20 byte* as Telnet only allows *21 byte*.
