@@ -59,4 +59,34 @@ Used by TCP to establish *reliable connection* between sending end system and re
 4. **RTT**: Its well known that the handshake adds an RTT, thus slowing connection when traffic is heavy, which is why UDP is preferred when *speed* is a factor in the condition.
 
 ### TCP Segment Structure
-Data field is *1 byte* and TCP header is *20 byte* as Telnet only allows *21 byte*.
+TCP segment consists of *header* (20-60 bytes) annd *application-layer payload* using *sequence numbers* and *acknowledgements* for reliable data transfer.
+```
+| Source Port | Destination Port|
++-+-+-+-+-+-+-+-+-
+| Sequence Number|
++-+-+-+-+-
+| Acknowledgement number |
++-+-+-+-+-+-
+| Data Offset | Reserved | Flag(s) | Window Size|
++-+-+-+-+-+-
+|Checksum | Urgent Pointer|
+|+-+-+-+-+-
+| Options |
++-+-+-+-+-
+| Data |
+```
+- **Source-Port (16 bits)**: Identifies sending application's *port number* 
+- **Destination Port (16 bits)**: Identifies reciever applicaiton's port number
+- **Sequence Number (32 bits)**: Marks position of *data byts*; holds sequence number of *first data byte* in single segment
+- **Acknowledgement Number (32 bits)**: *Cumulative acknowledgement* Has the sequence number of **next** byte incoming, thus confirming all the previous bytes
+- **Data Offset (4 bits)**: Specifies length of TCP header
+- **Reserved**: Set to 0, reserved for future use
+- **Window Size (16 bits)**: *flow ctrls*, tells other device, how many bytes the current device can accept
+- **CheckSum (16 bits)**: For *error detection* for corrupted bits
+
+#### Sequence Numbers: 
+Every byte in a segment is *numbered* (to track them). **Sequence Number** in a *segmemt header* is number assigned to **first** data byte.
+- e.g: Segment started with data byte `0` (so Sequence Number for that segment is `0`) and went till data byte `99`. The next segment starts with data byte `100`, so Sequence Number for that segment is `100`.
+
+#### Acknowledgements:
+Acknowledgement number if `n` means, the reciever is waiting for `n`th byte, *automatically* implying that bytes upto `n-1` have been recieved.
