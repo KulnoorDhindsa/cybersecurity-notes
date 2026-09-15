@@ -40,6 +40,10 @@ Its called *connection-oriented* as before the actual sender sends data to recie
 - **duplex-service**: If data is being transfered from A to B, then at same time, data can be transfered from B to A
 - **point-to-point**: TCP establishes direct connection between singular end points (sender and reciever)
     - *Multicasting* that is, singular sender sending to multiple recievers is NOT POSSIBLE !
+- TCP uses **timeout - retransmit** mechanism for lost packets
+    - After sending a packet, a *timer* is started, if by the end, an **Ack** isn't recieved by the reciever, packet is assumed to be lost and is re-transmitted
+    - The *timer* is *dynamic* and adjusts the **RTT (Round-Trip Time)** as well.
+    - If re-transmitted packet times out, then the interval is doubled to prevent congestion of the network
 ## Three-way Handshake
 Used by TCP to establish *reliable connection* between sending end system and recieving end system. Its an *exchange of Synchronised Sequence Numbers* between client and server, where they share the Initials Sequence Numbers (ISNs) that their segments will cary.
 - *Three-way Handshake* as 3 segments are sent between 2 processes, *client process* (the one initiating the connection) and *server process*.
