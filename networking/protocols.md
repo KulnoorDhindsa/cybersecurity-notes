@@ -94,3 +94,9 @@ Every byte in a segment is *numbered* (to track them). **Sequence Number** in a 
 
 #### Acknowledgements:
 An acknowledgement number if `n` means the receiver is waiting for the `n`th byte, *automatically* implying that bytes upto `n-1` have been received.
+
+### RTT and Timeout-time
+- The *timeout* timer has to be **larger** than the RTT, but not large enough for exploitation.
+- RTT is **NOT** measured for *re-transmitted* segment.
+
+## Congestion Ctrl Mechanism
