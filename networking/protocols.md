@@ -100,3 +100,4 @@ An acknowledgement number if `n` means the receiver is waiting for the `n`th byt
 - RTT is **NOT** measured for *re-transmitted* segment.
 
 ## Congestion Ctrl Mechanism
+*Packet loss* happens when *router buffers* OVERFLOW and cause **network congestion**.

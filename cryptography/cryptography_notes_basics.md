@@ -62,3 +62,27 @@ graph TD
 
 **Modular Arithmetics**: Performing arithmetic in a finite set of integers.
 - **equivalence class**: Groups of different cryptographic inputs/keys that produce identical observable results under an *equivalence relation*.
+---
+
+## Ceasar Cipher (Shift Cipher)
+*Mechanism*: Shift every *plaintext* (x) letter by a fixed *number* of positions.
+>27 shifts is the same as 1 shift !!
+```
+k = 17 (Ceasar Shift by 17)
+ATTACK: 0,19,19,0,2,10
+After Shifting by 17 i.e. add 17: 17,10,10,17,19,1
+Result: rkkrtb
+```
+This is least bit secure and can be solved by:
+1. **Brute Force**: Since only 26 different keys are possible, brute forcing makes sense
+2. **Letter Frequency**: As in substituion.
+
+### Affine Cipher
+To complicate and *generalise* the Ceasar Cipher (to make it *more secure*), **a character is multipled and another is added** to plaintext.
+```
+key: (a,b)=(9,13)
+modular inverse = 3 (as 9.3 = 27 which gives `1` when `mod26` and `1` is a.)
+```
+Result: N C C N F Z
+Encrypt: `y=(a.x +b) (mod 26)`
+Decrypt: `x = a inverse . (y-b) (mod 26)`
