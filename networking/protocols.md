@@ -12,7 +12,7 @@ It makes a **best-effort attempt** to ensure that all the packets are sent safel
 UDP is still used as:
 - **NO** handshake or transmission *delay*
 - Sends data *instantly* (after encasing data into a *UDP segment*), preventing older data from blocking or lagging incoming data
-    - TCP has **congestion control mechanism**; if a packet *drops*, TCP stops the message and waits for that data to be retransmitted and *acknowledged* by the destination host/port
+    - TCP has a **congestion control mechanism**; if a packet *drops*, TCP stops the message and waits for that data to be retransmitted and *acknowledged* by the destination host/port
 - UDP has **smaller Headers** (8-byte headers) compared to TCP (20-byte headers)
 - UDP is used in:
     - **Live-Videos**: Dropping some part of the videos/voice and continuing the rest is preferred over stopping the entire stream
@@ -45,7 +45,7 @@ Its called *connection-oriented* because before the actual sender sends data to 
     - The *timer* is *dynamic* and adjusts the **RTT (Round-Trip Time)** as well.
     - If a retransmitted packet times out, then the interval is doubled to prevent congestion of the network
 ## Three-way Handshake
-Used by TCP to establish *reliable connection* between the sending end system and the receiving end system. It's an *exchange of Synchronised Sequence Numbers* between client and server, where they share the Initial Sequence Numbers (ISNs) that their segments will cary.
+Used by TCP to establish *reliable connection* between the sending end system and the receiving end system. It's an *exchange of Synchronised Sequence Numbers* between client and server, where they share the Initial Sequence Numbers (ISNs) that their segments will carry.
 - *Three-way Handshake* as 3 segments are sent between 2 processes, *client process* (the one initiating the connection) and *server process*.
 - It occurs between processes running on end systems.
 - Port numbers and socket numbers of end systems are NOT in Three-way Handshakes, but in TCP headers. IP addresses are in the IP header, in the *network layer packet*, that wraps the *Transport layer segment* as its *payload*.
@@ -54,10 +54,10 @@ Used by TCP to establish *reliable connection* between the sending end system an
 ### Steps for 3-way Handshake
 1. **SYN**: Client sends a segment with the **SYN** flag to synchronise *sequence numbers*, informing the server that communication is likely to start with the client.
 2. **SYN + ACK**: Server sends **SYN - ACK**, where **ACK** is for *acknowledgement* of receiving the initial SYN flag from the client, and *another SYN* flag to synchronise *sequence numbers* of the server; that is, the Initial Sequence Numbers (ISNs) of the segments sent by the server.
-3. **ACK**: Client sends final ACK as it receives the SYN-ACK sent by the server, thus establishing a reliable connection for data transfer.
+3. **ACK**: The client sends the final ACK as it receives the SYN-ACK sent by the server, thus establishing a reliable connection for data transfer.
 ### Important:
-1. **Sequence number consumption**: SYN and FIN flags consume 1 sequence number even though they carry no data. That's why, ACK is N+1
-2. **ISN are RANDOMIZED**: ISNs are *randomised* and not shared as a *security measure*, where hackers can't predict the next ISN, which prevents hijacking of the connection.
+1. **Sequence number consumption**: SYN and FIN flags consume 1 sequence number even though they carry no data. That's why ACK is N+1
+2. **ISNs are RANDOMIZED**: ISNs are *randomised* and not shared as a *security measure*, where hackers can't predict the next ISN, which prevents hijacking of the connection.
 3. **half-open state**: After #1, reciever is in *half-recieved state* with only **SYN-recieved** and is *exploited* by a **SYN flood attack** - never sending the ACK.
 >`SYN flood attack` is a DoS (denial-of-service) attack that doesn't send the ACK and floods the connection with multiple SYNs, halting the connection.
 4. **RTT**: It's well known that the handshake adds an RTT, thus slowing the connection when traffic is heavy, which is why UDP is preferred when *speed* is a factor in the condition.
@@ -85,7 +85,7 @@ TCP segment consists of a *header* (20-60 bytes) and an *application-layer paylo
 - **Acknowledgement Number (32 bits)**: *Cumulative acknowledgement* Has the sequence number of **next** byte incoming, thus confirming all the previous bytes
 - **Data Offset (4 bits)**: Specifies length of TCP header
 - **Reserved**: Set to 0, reserved for future use
-- **Window Size (16 bits)**: *flow controls*, tells the other device how many bytes the current device can accept
+- **Window Size (16 bits)**: *flow control*, tells the other device how many bytes the current device can accept
 - **CheckSum (16 bits)**: For *error detection* for corrupted bits
 
 #### Sequence Numbers: 
@@ -93,7 +93,7 @@ Every byte in a segment is *numbered* (to track them). **Sequence Number** in a 
 - e.g: Segment started with data byte `0` (so Sequence Number for that segment is `0`) and went till data byte `99`. The next segment starts with data byte `100`, so the Sequence Number for that segment is `100`.
 
 #### Acknowledgements:
-An acknowledgement number if `n` means the receiver is waiting for the `n`th byte, *automatically* implying that bytes upto `n-1` have been received.
+An acknowledgement number of `n` means the receiver is waiting for the `n`th byte, *automatically* implying that bytes up to `n-1` have been received.
 
 ### RTT and Timeout-time
 - The *timeout* timer has to be **larger** than the RTT, but not large enough for exploitation.
