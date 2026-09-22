@@ -13,7 +13,7 @@ It makes a **best-effort attempt** to ensure that all the packets are sent safel
 UDP is still used as:
 - **NO** handshake or transmission *delay*
 - Sends data *instantly* (after encasing data into a *UDP segment*), preventing older data from blocking or lagging incoming data
-    - TCP has **congestion control mechanism**; if a packet *drops*, TCP stops the message and waits for that data to be retransmitted and *acknowledged* by the destination host/port
+    - TCP has a **congestion control mechanism**; if a packet *drops*, TCP stops the message and waits for that data to be retransmitted and *acknowledged* by the destination host/port
 - UDP has **smaller Headers** (8-byte headers) compared to TCP (20-byte headers)
 - UDP is used in:
     - **Live-Videos**: Dropping some part of the videos/voice and continuing the rest is preferred over stopping the entire stream
@@ -35,6 +35,7 @@ UDP is still used as:
 - **Data Payload**: The Application layer data being sent (e.g. a DNS query) of variable length (determined by `Length` in the header)
 ---
 # TCP
+<<<<<<< HEAD
 
 TCP is called *connection-oriented* because before the sender sends data to the receiver, a *handshake* takes place.
 
@@ -117,6 +118,35 @@ The behavioral asymmetry in the FIN/NULL/XMAS rows exists because RFC 793 says a
 ## TCP Segment Structure
 
 A TCP segment consists of a *header* (20–60 bytes) and an *application-layer payload*, using sequence numbers and acknowledgements for reliable, ordered delivery.
+=======
+Its called *connection-oriented* because before the actual sender sends data to the receiver, a *handshake* takes place.
+- The *handshake* consists of *segments* of information regarding both devices and their ports.
+>TCP only runs on end-systems!
+- **duplex-service**: If data is being transferred from A to B, then at the same time, data can be transferred from B to A
+- **point-to-point**: TCP establishes a direct connection between singular end points (sender and receiver)
+    - *Multicasting*, that is, a single sender sending to multiple receivers, is NOT POSSIBLE!
+- TCP uses **timeout - retransmit** mechanism for lost packets
+    - After sending a packet, a *timer* is started; if, by the end, an **Ack** isn't received by the receiver, the packet is assumed to be lost and is retransmitted
+    - The *timer* is *dynamic* and adjusts the **RTT (Round-Trip Time)** as well.
+    - If a retransmitted packet times out, then the interval is doubled to prevent congestion of the network
+## Three-way Handshake
+Used by TCP to establish *reliable connection* between the sending end system and the receiving end system. It's an *exchange of Synchronised Sequence Numbers* between client and server, where they share the Initial Sequence Numbers (ISNs) that their segments will carry.
+- *Three-way Handshake* as 3 segments are sent between 2 processes, *client process* (the one initiating the connection) and *server process*.
+- It occurs between processes running on end systems.
+- Port numbers and socket numbers of end systems are NOT in Three-way Handshakes, but in TCP headers. IP addresses are in the IP header, in the *network layer packet*, that wraps the *Transport layer segment* as its *payload*.
+>**Send Buffer**: When an end system reserves a memory location for the segments of the Transport Layer sent in the TCP handshake.
+- **MSS** (Maximum Segment Size) is the maximum amount of application layer data that can be stored in the segment. TCP segment is a chunk of *client data* with TCP headers.
+### Steps for 3-way Handshake
+1. **SYN**: Client sends a segment with the **SYN** flag to synchronise *sequence numbers*, informing the server that communication is likely to start with the client.
+2. **SYN + ACK**: Server sends **SYN - ACK**, where **ACK** is for *acknowledgement* of receiving the initial SYN flag from the client, and *another SYN* flag to synchronise *sequence numbers* of the server; that is, the Initial Sequence Numbers (ISNs) of the segments sent by the server.
+3. **ACK**: The client sends the final ACK as it receives the SYN-ACK sent by the server, thus establishing a reliable connection for data transfer.
+### Important:
+1. **Sequence number consumption**: SYN and FIN flags consume 1 sequence number even though they carry no data. That's why ACK is N+1
+2. **ISNs are RANDOMIZED**: ISNs are *randomised* and not shared as a *security measure*, where hackers can't predict the next ISN, which prevents hijacking of the connection.
+3. **half-open state**: After #1, reciever is in *half-recieved state* with only **SYN-recieved** and is *exploited* by a **SYN flood attack** - never sending the ACK.
+>`SYN flood attack` is a DoS (denial-of-service) attack that doesn't send the ACK and floods the connection with multiple SYNs, halting the connection.
+4. **RTT**: It's well known that the handshake adds an RTT, thus slowing the connection when traffic is heavy, which is why UDP is preferred when *speed* is a factor in the condition.
+>>>>>>> ff9c0714704d464082c67d4d00b0305d6758079a
 
 ```
  0                   1                   2                   3
@@ -139,6 +169,17 @@ A TCP segment consists of a *header* (20–60 bytes) and an *application-layer p
 |                             Data                             |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
+<<<<<<< HEAD
+=======
+- **Source-Port (16 bits)**: Identifies sending application's *port number* 
+- **Destination Port (16 bits)**: Identifies reciever applicaiton's port number
+- **Sequence Number (32 bits)**: Marks position of *data byts*; holds sequence number of *first data byte* in single segment
+- **Acknowledgement Number (32 bits)**: *Cumulative acknowledgement* Has the sequence number of **next** byte incoming, thus confirming all the previous bytes
+- **Data Offset (4 bits)**: Specifies length of TCP header
+- **Reserved**: Set to 0, reserved for future use
+- **Window Size (16 bits)**: *flow control*, tells the other device how many bytes the current device can accept
+- **CheckSum (16 bits)**: For *error detection* for corrupted bits
+>>>>>>> ff9c0714704d464082c67d4d00b0305d6758079a
 
 - **Source Port (16 bits)**: identifies the sending application's port number.
 - **Destination Port (16 bits)**: identifies the receiving application's port number.
@@ -152,6 +193,7 @@ A TCP segment consists of a *header* (20–60 bytes) and an *application-layer p
 - **Urgent Pointer (16 bits)**: used with the URG flag to mark urgent data.
 - **Options**: variable length; includes MSS negotiation, **Window Scaling**, **SACK permitted**, and timestamps; see *Security: TCP Options and Evasion* above.
 
+<<<<<<< HEAD
 ### Flags
 
 | Flag | Full name | Function |
@@ -189,5 +231,9 @@ The handshake gets covered constantly; teardown is just as important and is wher
 *(not yet written — TODO)*
 
 ---
+=======
+#### Acknowledgements:
+An acknowledgement number of `n` means the receiver is waiting for the `n`th byte, *automatically* implying that bytes up to `n-1` have been received.
+>>>>>>> ff9c0714704d464082c67d4d00b0305d6758079a
 
 
