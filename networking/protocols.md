@@ -35,8 +35,6 @@ UDP is still used as:
 - **Data Payload**: The Application layer data being sent (e.g. a DNS query) of variable length (determined by `Length` in the header)
 ---
 # TCP
-<<<<<<< HEAD
-
 TCP is called *connection-oriented* because before the sender sends data to the receiver, a *handshake* takes place.
 
 - The *handshake* consists of *segments* carrying control information about both devices, including their ports.
@@ -146,7 +144,6 @@ Used by TCP to establish *reliable connection* between the sending end system an
 3. **half-open state**: After #1, reciever is in *half-recieved state* with only **SYN-recieved** and is *exploited* by a **SYN flood attack** - never sending the ACK.
 >`SYN flood attack` is a DoS (denial-of-service) attack that doesn't send the ACK and floods the connection with multiple SYNs, halting the connection.
 4. **RTT**: It's well known that the handshake adds an RTT, thus slowing the connection when traffic is heavy, which is why UDP is preferred when *speed* is a factor in the condition.
->>>>>>> ff9c0714704d464082c67d4d00b0305d6758079a
 
 ```
  0                   1                   2                   3
@@ -169,8 +166,6 @@ Used by TCP to establish *reliable connection* between the sending end system an
 |                             Data                             |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
-<<<<<<< HEAD
-=======
 - **Source-Port (16 bits)**: Identifies sending application's *port number* 
 - **Destination Port (16 bits)**: Identifies reciever applicaiton's port number
 - **Sequence Number (32 bits)**: Marks position of *data byts*; holds sequence number of *first data byte* in single segment
@@ -179,8 +174,6 @@ Used by TCP to establish *reliable connection* between the sending end system an
 - **Reserved**: Set to 0, reserved for future use
 - **Window Size (16 bits)**: *flow control*, tells the other device how many bytes the current device can accept
 - **CheckSum (16 bits)**: For *error detection* for corrupted bits
->>>>>>> ff9c0714704d464082c67d4d00b0305d6758079a
-
 - **Source Port (16 bits)**: identifies the sending application's port number.
 - **Destination Port (16 bits)**: identifies the receiving application's port number.
 - **Sequence Number (32 bits)**: marks the position of data bytes; holds the sequence number of the *first* data byte in this segment.
@@ -193,7 +186,6 @@ Used by TCP to establish *reliable connection* between the sending end system an
 - **Urgent Pointer (16 bits)**: used with the URG flag to mark urgent data.
 - **Options**: variable length; includes MSS negotiation, **Window Scaling**, **SACK permitted**, and timestamps; see *Security: TCP Options and Evasion* above.
 
-<<<<<<< HEAD
 ### Flags
 
 | Flag | Full name | Function |
@@ -227,13 +219,22 @@ The handshake gets covered constantly; teardown is just as important and is wher
 
 ---
 
-## Congestion Control Mechanism
-*(not yet written — TODO)*
+## Congestion Control 
+End-to-end mechanism used to regulate the rate of packages being sent across the network based on the rate at which the packages are being recieved by the reciever to *prevent congestion* and *over-flow* in the network.
+
+**Congestion Window (cwnd)** is a *state variable* on the sender side.
+
+- TCP is **self-clocking** as ACKs are used to trigger / clock / adjust size of `cwnd` (congestion window) which adjusts rate of data being snet in the connection.
+- *Ideal* rate to send data across TCP connection **without congesting the connection** and **utilizing full potential** are:
+    1. *Decrease when segment lost*: To re-send the ACK and the lost segment which may get stuck in the congestion if speed of sending segments is too fast
+    2. *Increase when ACK of previously lost segment is recieed*: To maintain earlier speed as *connection is smooth* (assumption made whEN ACK of lost packet is recieved
+    3. 
 
 ---
-=======
 #### Acknowledgements:
 An acknowledgement number of `n` means the receiver is waiting for the `n`th byte, *automatically* implying that bytes up to `n-1` have been received.
->>>>>>> ff9c0714704d464082c67d4d00b0305d6758079a
+
+*These are ongoing notes, thus not finished yet :)*
+
 
 
