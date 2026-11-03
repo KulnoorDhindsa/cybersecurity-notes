@@ -14,6 +14,13 @@
     - It opperates in the *control panal* where complex calculations are made.
 - **FIB** i.e. *forwarding information base* is dataset of *winning* pathway.
     - Avoids the *control panal* entirely, allowing datagram to be forwarded at wire speed
+- FIB is **not** updated by incoming datagrams.
 
-#### Lookup:
-- When datagram arrives, IP address of destination is looked up in the *forwarding table*, to figure out the next *hop* i.e. next network device (switch, router etc) to go to.
+#### Control Plane | Data Plane
+|Control Plane|Data Plane|
+|-------------|----------|
+|Logical|*forwarding plane*|
+|Builds routing table|Forwards *protocol processes*, *RIB*, *algo that selects the winning path*|
+|Tolerates processing delay, as it handles *routing changes* and not *packet transfer*|Rapid packet forwarding due to *pre-computing* forwarding decisions|
+
+
