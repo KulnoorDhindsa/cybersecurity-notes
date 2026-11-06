@@ -23,4 +23,10 @@
 |Builds routing table|Forwards *protocol processes*, *RIB*, *algo that selects the winning path*|
 |Tolerates processing delay, as it handles *routing changes* and not *packet transfer*|Rapid packet forwarding due to *pre-computing* forwarding decisions|
 
+### Working:
+1. **FIB Construction**: *contrl panrl* builds FIB by selecting winning paths from RIB
+    - Router learns of routes from *static* and *dynamic* routing protocols
+    - Resloves *next hop* information
+2. **Speed Optimization**: Specialized data structures (*Patricia Tries*) are implimented by FIB to *accelerate lookups* and handle *Longest Prefix Matching* (LPM).
+
 
